@@ -7,7 +7,7 @@ You must test your agent's strength against a set of agents with known
 relative strength using tournament.py and include the results in your report.
 """
 import random
-import sample_players as sp
+import sample_players as sp #for testing
 
 
 class Timeout(Exception):
@@ -35,11 +35,12 @@ def custom_score(game, player):
         The heuristic value of the current game state to the specified player.
     """
     #for testing
-    print("In custom score.")
+    print("In custom_score:")
+    print("custom_score: heuristic = ", sp.open_move_score(game, player) )
     return sp.open_move_score(game, player)
     
     # TODO: finish this function!
-#    raise NotImplementedError
+    #    raise NotImplementedError
 
 
 class CustomPlayer:
@@ -130,8 +131,8 @@ class CustomPlayer:
             # here in order to avoid timeout. The try/except block will
             # automatically catch the exception raised by the search method
             # when the timer gets close to expiring
-            print("Method = ", self.method)
-            print("Score = ", self.score)
+            print("CustomPlayer: method = ", self.method)
+            print("CustomPlayer: score = ", self.score)
             pass
 
         except Timeout:
@@ -139,8 +140,9 @@ class CustomPlayer:
             pass
 
         # Return the best move from the last completed search iteration
-        print("In Custom Player.")
-        raise NotImplementedError
+        print ("CustomPlayer:  legal_moves = ", legal_moves)
+        return legal_moves[0]
+#       raise NotImplementedError
 
     def minimax(self, game, depth, maximizing_player=True):
         """Implement the minimax search algorithm as described in the lectures.
