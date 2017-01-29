@@ -178,15 +178,46 @@ class CustomPlayer:
         print("minimax: maximizing_player = ", maximizing_player)
         print("minimax: utility = ", game.utility(self))
         print("minimax: score = ", self.score)
+        print("minimax: game.move_count = ", game.move_count)
         
-        for iMove in game.get_legal_moves():
-            result = self.score(game.forecast_move(iMove), self)
-            print("minimax: iMove = ", iMove)
-            print("minimax: score = ", result)
+        # Verify we are still within valid depth range.
+        # A two player game will always be initialized with
+        # two moves.  Subtract one to get to current depth.
+        current_search_depth = game.move_count-1
+        print("minimax: currently at depth = ", current_search_depth)
+            
+        if len(game.get_legal_moves()) == 0:
+            print("minimax: no legal moves remain")
+            return 0, (-1,-1)
+        else:
+            max_score_result = float("-inf")
+            max_move = (-1,-1)
+            for iMove in game.get_legal_moves():
+                if current_search_depth == depth:
+                    print("minimax: at target search depth.")
+                    score_result = self.score(game.forecast_move(iMove), self)
+                    print("minimax: iMove = ", iMove)
+                    print("minimax: score = ", score_result)
+                else:
+                    print("minimax: not at target depth")
+                    print("minimax: game depth before forecast = ", game.move_count-1)
+                    print("minimax: legal moves before forecast = ", game.get_legal_moves())
+                    game = game.forecast_move(iMove)
+                    print("minimax: iMove = ", iMove)
+                    print("minimax: game depth = ", game.move_count-1)
+                    print("minimax: legal moves = ", game.get_legal_moves())
+##                    score_result = 0.0
+                    score_result, iMove = self.minimax(game, depth, maximizing_player)
+                    print("minimax: iMove = ", iMove)
+                    print("minimax: score = ", score_result)
+                    print()
+                if score_result > max_score_result:
+                    max_score_result = score_result
+                    max_move = iMove   
         
-        
-        
-        return 1.0, (-1, -1)  # test value in expected format
+            return max_score_result, max_move
+                
+#        return 0.0, (-1, -1)  # test value in expected format
 #        raise NotImplementedError
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
