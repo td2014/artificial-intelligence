@@ -173,6 +173,7 @@ class CustomPlayer:
             raise Timeout()
 
         # TODO: finish this function!
+        print()
         print("minimax: game = ", game)
         print("minimax: depth = ", depth)
         print("minimax: maximizing_player = ", maximizing_player)
@@ -190,32 +191,47 @@ class CustomPlayer:
             print("minimax: no legal moves remain")
             return 0, (-1,-1)
         else:
-            max_score_result = float("-inf")
-            max_move = (-1,-1)
-            for iMove in game.get_legal_moves():
-                if current_search_depth == depth:
+            if current_search_depth == depth:
+                if maximizing_player:
+                    opt_score_result = float("-inf")
+                    opt_move = (-1,-1)
+                else:
+                    opt_score_result = float("inf")
+                    opt_move = (-1,-1)  
+                    
+                for iMove in game.get_legal_moves():
                     print("minimax: at target search depth.")
                     score_result = self.score(game.forecast_move(iMove), self)
                     print("minimax: iMove = ", iMove)
                     print("minimax: score = ", score_result)
-                else:
-                    print("minimax: not at target depth")
+                    if maximizing_player:
+                        if score_result > opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+                    else:
+                        if score_result < opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+            else:
+                print("minimax: not at target depth")
+                for iMove in game.get_legal_moves():
                     print("minimax: game depth before forecast = ", game.move_count-1)
                     print("minimax: legal moves before forecast = ", game.get_legal_moves())
-                    game = game.forecast_move(iMove)
+                    gameTemp = game.forecast_move(iMove)
                     print("minimax: iMove = ", iMove)
-                    print("minimax: game depth = ", game.move_count-1)
-                    print("minimax: legal moves = ", game.get_legal_moves())
-##                    score_result = 0.0
-                    score_result, iMove = self.minimax(game, depth, maximizing_player)
+                    print("minimax: game depth after forecast = ", gameTemp.move_count-1)
+                    print("minimax: legal moves after forecast = ", gameTemp.get_legal_moves())
+                    score_result = 0.0
+                    opt_score_result, opt_move = self.minimax(gameTemp, depth, not maximizing_player)
                     print("minimax: iMove = ", iMove)
                     print("minimax: score = ", score_result)
                     print()
-                if score_result > max_score_result:
-                    max_score_result = score_result
-                    max_move = iMove   
-        
-            return max_score_result, max_move
+                   
+            return opt_score_result, opt_move
                 
 #        return 0.0, (-1, -1)  # test value in expected format
 #        raise NotImplementedError
