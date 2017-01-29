@@ -176,8 +176,18 @@ class CustomPlayer:
         print("minimax: game = ", game)
         print("minimax: depth = ", depth)
         print("minimax: maximizing_player = ", maximizing_player)
-        print("minimax: get_utility ", game.utility(self))
-        raise NotImplementedError
+        print("minimax: utility = ", game.utility(self))
+        print("minimax: score = ", self.score)
+        
+        for iMove in game.get_legal_moves():
+            result = self.score(game.forecast_move(iMove), self)
+            print("minimax: iMove = ", iMove)
+            print("minimax: score = ", result)
+        
+        
+        
+        return 1.0, (-1, -1)  # test value in expected format
+#        raise NotImplementedError
 
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf"), maximizing_player=True):
         """Implement minimax search with alpha-beta pruning as described in the
