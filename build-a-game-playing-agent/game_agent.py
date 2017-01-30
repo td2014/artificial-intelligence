@@ -225,6 +225,7 @@ class CustomPlayer:
                         else:
                             continue
             else:
+                # recurse to the next level down
                 print("minimax: not at target depth")
                 for iMove in game.get_legal_moves():
                     print("minimax: game depth before forecast = ", game.move_count-1)
@@ -233,25 +234,35 @@ class CustomPlayer:
                     print("minimax: iMove = ", iMove)
                     print("minimax: game depth after forecast = ", gameTemp.move_count-1)
                     print("minimax: legal moves after forecast = ", gameTemp.get_legal_moves())
-                    score_result, opt_move = self.minimax(gameTemp, depth, not maximizing_player)
+                    score_result, test_move = self.minimax(gameTemp, depth, not maximizing_player)
                     print("minimax recurse return:")
-                    print("minimax: iMove = ", opt_move)
+                    print("minimax: parent iMove = ", iMove)
+                    print("minimax: opt_move = ", opt_move)
                     print("minimax: score = ", score_result)
                     print()
                    
                     if maximizing_player:
+                        print ("minimax: in recursion step - maximize player is True")
+                        print ("minimax: in recursion step - score_result = ", score_result)
+                        print ("minimax: in recursion step - opt_score_result = ", opt_score_result)
                         if score_result > opt_score_result:
+                            print ("minimax: in recursion step - updating optimum")
                             opt_score_result = score_result
                             opt_move = iMove
+                            print ("minimax: in recursion step - opt_move = ", opt_move)
+                            print ("minimax: in recursion step - opt_score_result = ", opt_score_result)
+                            print()
                         else:
                             continue
                     else:
+                        print ("minimax: in recursion step - maximize player is False")
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
-                    
+                print ("minimax: after recurse- returning opt_score_result, opt_move: ", opt_score_result, opt_move)       
+                return opt_score_result, opt_move        
                     
             print ("minimax: returning opt_score_result, opt_move: ", opt_score_result, opt_move)       
             return opt_score_result, opt_move

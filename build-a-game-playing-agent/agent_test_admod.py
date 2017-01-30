@@ -400,7 +400,7 @@ class Project1Test(unittest.TestCase):
         # the adversary has the last move before calling the heuristic
         # evaluation function.
 ###        for idx in range(5):
-        for idx in range(5):
+        for idx in range(2):
             test_depth = idx + 1
             agentUT, board = self.initAUT(test_depth, heuristic,
                                           iterative_search, method,
@@ -420,8 +420,8 @@ class Project1Test(unittest.TestCase):
             self.assertTrue(num_unique_valid, UNEXPECTED_VISIT.format(
                 method, test_depth, counts[idx][1], board.counts[1]))
 
- ##           self.assertIn(move, expected_moves[idx // 2], WRONG_MOVE.format(
- ##              method, test_depth, expected_moves[idx // 2], move))
+            self.assertIn(move, expected_moves[idx // 2], WRONG_MOVE.format(
+               method, test_depth, expected_moves[idx // 2], move))
 
     @timeout(10)
     @unittest.skip("Skip alpha-beta test.")  # Uncomment this line to skip test
