@@ -174,12 +174,16 @@ class CustomPlayer:
 
         # TODO: finish this function!
         print()
+        print("minimax: top")
         print("minimax: game = ", game)
         print("minimax: depth = ", depth)
         print("minimax: maximizing_player = ", maximizing_player)
         print("minimax: utility = ", game.utility(self))
         print("minimax: score = ", self.score)
         print("minimax: game.move_count = ", game.move_count)
+        print()
+        print(game.print_board())
+        print()
         
         # Verify we are still within valid depth range.
         # A two player game will always be initialized with
@@ -191,19 +195,23 @@ class CustomPlayer:
             print("minimax: no legal moves remain")
             return 0, (-1,-1)
         else:
-            if current_search_depth == depth:
-                if maximizing_player:
-                    opt_score_result = float("-inf")
-                    opt_move = (-1,-1)
-                else:
-                    opt_score_result = float("inf")
-                    opt_move = (-1,-1)  
-                    
+            if maximizing_player:
+                opt_score_result = float("-inf")
+                opt_move = (-1,-1)
+            else:
+                opt_score_result = float("inf")
+                opt_move = (-1,-1)  
+                
+            if current_search_depth == depth:       
                 for iMove in game.get_legal_moves():
                     print("minimax: at target search depth.")
-                    score_result = self.score(game.forecast_move(iMove), self)
                     print("minimax: iMove = ", iMove)
+                    gameTemp= game.forecast_move(iMove)
+                    score_result = self.score(gameTemp, self)
                     print("minimax: score = ", score_result)
+                    print()
+                    print(gameTemp.print_board())
+                    print()
                     if maximizing_player:
                         if score_result > opt_score_result:
                             opt_score_result = score_result
@@ -225,12 +233,27 @@ class CustomPlayer:
                     print("minimax: iMove = ", iMove)
                     print("minimax: game depth after forecast = ", gameTemp.move_count-1)
                     print("minimax: legal moves after forecast = ", gameTemp.get_legal_moves())
-                    score_result = 0.0
-                    opt_score_result, opt_move = self.minimax(gameTemp, depth, not maximizing_player)
-                    print("minimax: iMove = ", iMove)
+                    score_result, opt_move = self.minimax(gameTemp, depth, not maximizing_player)
+                    print("minimax recurse return:")
+                    print("minimax: iMove = ", opt_move)
                     print("minimax: score = ", score_result)
                     print()
                    
+                    if maximizing_player:
+                        if score_result > opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+                    else:
+                        if score_result < opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+                    
+                    
+            print ("minimax: returning opt_score_result, opt_move: ", opt_score_result, opt_move)       
             return opt_score_result, opt_move
                 
 #        return 0.0, (-1, -1)  # test value in expected format
