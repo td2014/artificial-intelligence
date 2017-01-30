@@ -125,6 +125,7 @@ class CustomPlayer:
         # Perform any required initializations, including selecting an initial
         # move from the game board (i.e., an opening book), or returning
         # immediately if there are no legal moves
+        
 
         try:
             # The search method call (alpha beta or minimax) should happen in
@@ -133,15 +134,27 @@ class CustomPlayer:
             # when the timer gets close to expiring
             print("CustomPlayer: method = ", self.method)
             print("CustomPlayer: score = ", self.score)
-            pass
+            
+            opt_score_result = float("-inf")
+            opt_move = (-1,-1)
+            
+            depth=1
+            for iMove in legal_moves:
+                gameTemp = game.forecast_move(iMove)
+                score_result, test_move = self.minimax(gameTemp, depth)
+                if score_result > opt_score_result:
+                    opt_score_result = score_result
+                    opt_move = iMove
+                else:
+                    continue
 
         except Timeout:
             # Handle any actions required at timeout, if necessary
             pass
 
         # Return the best move from the last completed search iteration
-        print ("CustomPlayer:  legal_moves = ", legal_moves)
-        return legal_moves[0]
+        print ("CustomPlayer:  legal_moves = ", opt_move)
+        return opt_move
 #       raise NotImplementedError
 
     def minimax(self, game, depth, maximizing_player=True):
