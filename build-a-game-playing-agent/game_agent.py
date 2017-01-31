@@ -126,6 +126,12 @@ class CustomPlayer:
         # immediately if there are no legal moves
         if len(legal_moves)==0:
             return (-1,-1)
+            
+        # If board uninitialized, select center position as default.    
+        if game.move_count==0:
+            start_row = game.height // 2
+            start_col = game.width // 2
+            return (start_row, start_col)
         
         try:
             # The search method call (alpha beta or minimax) should happen in
