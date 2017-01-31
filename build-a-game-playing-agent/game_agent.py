@@ -163,7 +163,7 @@ class CustomPlayer:
             return opt_move
 
         # Return the best move from the last completed search iteration
-        print ("CustomPlayer:  legal_moves = ", opt_move)
+##        print ("CustomPlayer:  legal_moves = ", opt_move)
         return opt_move
 #       raise NotImplementedError
 
