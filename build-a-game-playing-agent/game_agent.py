@@ -201,7 +201,7 @@ class CustomPlayer:
         # Verify we are still within valid depth range.
         # A two player game will always be initialized with
         # two moves.  Subtract one to get to current depth.
-        current_search_depth = game.move_count-1
+        current_search_depth = depth
         print("minimax: currently at depth = ", current_search_depth)
             
         if len(game.get_legal_moves()) == 0:
@@ -215,7 +215,7 @@ class CustomPlayer:
                 opt_score_result = float("inf")
                 opt_move = (-1,-1)  
                 
-            if current_search_depth == depth:       
+            if current_search_depth == 1:       
                 for iMove in game.get_legal_moves():
                     print("minimax: at target search depth.")
                     print("minimax: iMove = ", iMove)
@@ -247,7 +247,7 @@ class CustomPlayer:
                     print("minimax: iMove = ", iMove)
                     print("minimax: game depth after forecast = ", gameTemp.move_count-1)
                     print("minimax: legal moves after forecast = ", gameTemp.get_legal_moves())
-                    score_result, test_move = self.minimax(gameTemp, depth, not maximizing_player)
+                    score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
                     print("minimax recurse return:")
                     print("minimax: parent iMove = ", iMove)
                     print("minimax: opt_move = ", opt_move)

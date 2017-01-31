@@ -244,7 +244,7 @@ class Project1Test(unittest.TestCase):
             "The heuristic function should return a floating point")
 
     timeout(1)
-    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
+##    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
     def test_minimax_interface(self):
         """ Test CustomPlayer.minimax interface with simple input """
         h, w = 7, 7  # board size
@@ -270,7 +270,7 @@ class Project1Test(unittest.TestCase):
             v, _ = agentUT.minimax(next_state, test_depth)
 
             self.assertTrue(type(v) == float,
-                            ("Minimax function should return a floating " +
+                           ("Minimax function should return a floating " +
                              "point value approximating the score for the " +
                              "branch being searched."))
 
@@ -478,7 +478,7 @@ class Project1Test(unittest.TestCase):
 
 
     @timeout(10)
-##    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
     def test_get_move(self):
         """ Test iterative deepening in CustomPlayer.get_move by placing an
         agent on the game board and performing ID minimax search, which
