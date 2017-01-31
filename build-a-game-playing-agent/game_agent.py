@@ -117,7 +117,7 @@ class CustomPlayer:
             Board coordinates corresponding to a legal move; may return
             (-1, -1) if there are no available legal moves.
         """
-
+        print ("CustomPlayer: get_move:")
         self.time_left = time_left
 
         # TODO: finish this function!
@@ -125,32 +125,35 @@ class CustomPlayer:
         # Perform any required initializations, including selecting an initial
         # move from the game board (i.e., an opening book), or returning
         # immediately if there are no legal moves
-        
 
         try:
             # The search method call (alpha beta or minimax) should happen in
             # here in order to avoid timeout. The try/except block will
             # automatically catch the exception raised by the search method
             # when the timer gets close to expiring
-            print("CustomPlayer: method = ", self.method)
-            print("CustomPlayer: score = ", self.score)
+ ##           print("CustomPlayer: method = ", self.method)
+ ##           print("CustomPlayer: score = ", self.score)
             
             opt_score_result = float("-inf")
             opt_move = (-1,-1)
             
             depth=1
-            for iMove in legal_moves:
-                gameTemp = game.forecast_move(iMove)
-                score_result, test_move = self.minimax(gameTemp, depth)
-                if score_result > opt_score_result:
-                    opt_score_result = score_result
-                    opt_move = iMove
-                else:
-                    continue
-
+            while True:
+                for iMove in legal_moves:
+                    print("get_move: legal_moves = ", legal_moves)
+                    print("get_move: iMove = ", iMove)
+                    gameTemp = game.forecast_move(iMove)
+                    score_result, test_move = self.minimax(gameTemp, depth)
+                    if score_result > opt_score_result:
+                        opt_score_result = score_result
+                        opt_move = iMove
+                    else:
+                        continue
+###                break
+##                depth=depth+1
         except Timeout:
             # Handle any actions required at timeout, if necessary
-            pass
+            return opt_move
 
         # Return the best move from the last completed search iteration
         print ("CustomPlayer:  legal_moves = ", opt_move)
@@ -198,9 +201,8 @@ class CustomPlayer:
         print(game.print_board())
         print()
         
-        # Verify we are still within valid depth range.
-        # A two player game will always be initialized with
-        # two moves.  Subtract one to get to current depth.
+        # using depth to determine level to evaluate
+        # score.  When depth==1 then stop recursing.
         current_search_depth = depth
         print("minimax: currently at depth = ", current_search_depth)
             

@@ -141,8 +141,12 @@ def makeEvalStop(limit, timer, value=None):
 
     def score(game, player):
         if limit == game.counts[0]:
+            print("Limit = ", limit)
+            print("Game counts = ", game.counts[0])
             timer.time_limit = 0
         elif timer.time_left() < 0:
+            print("Negative time.")
+            print("Game counts = ", game.counts[0])
             raise TimeoutError("Timer expired during search. You must " +
                                "return an answer before the timer reaches 0.")
         return 0
@@ -244,7 +248,7 @@ class Project1Test(unittest.TestCase):
             "The heuristic function should return a floating point")
 
     timeout(1)
-##    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
     def test_minimax_interface(self):
         """ Test CustomPlayer.minimax interface with simple input """
         h, w = 7, 7  # board size
@@ -478,7 +482,7 @@ class Project1Test(unittest.TestCase):
 
 
     @timeout(10)
-    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
+##    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
     def test_get_move(self):
         """ Test iterative deepening in CustomPlayer.get_move by placing an
         agent on the game board and performing ID minimax search, which
@@ -498,11 +502,14 @@ class Project1Test(unittest.TestCase):
             def __init__(self, time_limit):
                 self.time_limit = time_limit
                 self.start_time = curr_time_millis()
+                print("Dynamic Timer: time_limit = ", time_limit)
 
             def time_left(self):
+                print("Dynamic Timer: time_left = ", self.time_limit - (curr_time_millis() - self.start_time) )
                 return self.time_limit - (curr_time_millis() - self.start_time)
 
-        w, h = 11, 11  # board size
+###        w, h = 11, 11  # board size
+        w, h = 5, 5  # board size
         adversary_location = (0, 0)
         method = "minimax"
 
@@ -519,6 +526,7 @@ class Project1Test(unittest.TestCase):
             # set the initial timer high enough that the search will not
             # timeout before triggering the dynamic timer to halt by visiting
             # the expected number of nodes
+###            time_limit = 1e4
             time_limit = 1e4
             timer = DynamicTimer(time_limit)
             eval_fn = makeEvalStop(exact_counts[idx][0], timer, time_limit)
@@ -526,6 +534,7 @@ class Project1Test(unittest.TestCase):
                                           origins[idx], adversary_location,
                                           w, h)
             legal_moves = board.get_legal_moves()
+            print("Calling get move")
             chosen_move = agentUT.get_move(board, legal_moves, timer.time_left)
 
             diff_total = abs(board.counts[0] - exact_counts[idx][0])
