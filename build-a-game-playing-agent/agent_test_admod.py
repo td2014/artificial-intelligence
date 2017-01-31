@@ -244,7 +244,7 @@ class Project1Test(unittest.TestCase):
             "The heuristic function should return a floating point")
 
     timeout(1)
-    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
+##    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
     def test_minimax_interface(self):
         """ Test CustomPlayer.minimax interface with simple input """
         h, w = 7, 7  # board size
@@ -358,7 +358,7 @@ class Project1Test(unittest.TestCase):
                        "on the current game board."))
 
     @timeout(1)
-    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
+##    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
     def test_minimax(self):
         """ Test CustomPlayer.minimax
 
@@ -478,7 +478,7 @@ class Project1Test(unittest.TestCase):
 
 
     @timeout(10)
-    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
+##    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
     def test_get_move(self):
         """ Test iterative deepening in CustomPlayer.get_move by placing an
         agent on the game board and performing ID minimax search, which
@@ -498,10 +498,8 @@ class Project1Test(unittest.TestCase):
             def __init__(self, time_limit):
                 self.time_limit = time_limit
                 self.start_time = curr_time_millis()
-###                print("Dynamic Timer: time_limit = ", time_limit)
 
             def time_left(self):
-###                print("Dynamic Timer: time_left = ", self.time_limit - (curr_time_millis() - self.start_time) )
                 return self.time_limit - (curr_time_millis() - self.start_time)
 
         w, h = 11, 11  # board size
@@ -513,8 +511,6 @@ class Project1Test(unittest.TestCase):
         # test because it always visits all nodes in the game tree at every
         # level).
         origins = [(2, 3), (6, 6), (7, 4), (4, 2), (0, 5), (10, 10)]
-###        origins = [(2, 3), (6, 6)] #, (7, 4), (4, 2), (0, 5), (10, 10)]
-###        exact_counts = [(8, 8), (32, 10), (160, 39), (603, 35), (1861, 54), (3912, 62)]
         exact_counts = [(8, 8), (32, 10), (160, 39), (603, 35), (1861, 54), (3912, 62)]
 
         for idx in range(len(origins)):
