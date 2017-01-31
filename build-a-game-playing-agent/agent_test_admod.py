@@ -482,7 +482,7 @@ class Project1Test(unittest.TestCase):
 
 
     @timeout(10)
-##    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
     def test_get_move(self):
         """ Test iterative deepening in CustomPlayer.get_move by placing an
         agent on the game board and performing ID minimax search, which
@@ -516,8 +516,8 @@ class Project1Test(unittest.TestCase):
         # performs an iterative deepening minimax search (minimax is easier to
         # test because it always visits all nodes in the game tree at every
         # level).
-###        origins = [(2, 3), (6, 6), (7, 4), (4, 2), (0, 5), (10, 10)]
-        origins = [(2, 3), (6, 6)] #, (7, 4), (4, 2), (0, 5), (10, 10)]
+        origins = [(2, 3), (6, 6), (7, 4), (4, 2), (0, 5), (10, 10)]
+###        origins = [(2, 3), (6, 6)] #, (7, 4), (4, 2), (0, 5), (10, 10)]
         exact_counts = [(8, 8), (32, 10), (160, 39), (603, 35), (1861, 54), (3912, 62)]
 
         for idx in range(len(origins)):
@@ -532,7 +532,6 @@ class Project1Test(unittest.TestCase):
                                           origins[idx], adversary_location,
                                           w, h)
             legal_moves = board.get_legal_moves()
-            print("Calling get move")
             chosen_move = agentUT.get_move(board, legal_moves, timer.time_left)
 
             diff_total = abs(board.counts[0] - exact_counts[idx][0])

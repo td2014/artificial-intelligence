@@ -145,10 +145,7 @@ class CustomPlayer:
                 if score_result > opt_score_result:
                     opt_score_result = score_result
                     opt_move = test_move
-                else:
-                    continue
-###                break
-##                depth=depth+1
+                depth=depth+1
         except Timeout:
             # Handle any actions required at timeout, if necessary
             print("get_moves:  Hit Timeout")
