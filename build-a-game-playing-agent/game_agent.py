@@ -205,7 +205,10 @@ class CustomPlayer:
             
         if len(game.get_legal_moves()) == 0:
             print("minimax: no legal moves remain")
-            return 0, (-1,-1)
+            if maximizing_player:
+                return float("-inf"), (-1,-1)
+            else:
+                return float("inf"), (-1,-1)
         else:
         # initialize return scores and moves
             if maximizing_player:
