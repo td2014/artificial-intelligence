@@ -140,17 +140,13 @@ class CustomPlayer:
             opt_move = (-1,-1)
             depth=1
             
-            while self.time_left > 0:
-                for iMove in legal_moves:
-                    print("get_move: legal_moves = ", legal_moves)
-                    print("get_move: iMove = ", iMove)
-                    gameTemp = game.forecast_move(iMove)
-                    score_result, test_move = self.minimax(gameTemp, depth)
-                    if score_result > opt_score_result:
-                        opt_score_result = score_result
-                        opt_move = iMove
-                    else:
-                        continue
+            while True:
+                score_result, test_move = self.minimax(game, depth)
+                if score_result > opt_score_result:
+                    opt_score_result = score_result
+                    opt_move = test_move
+                else:
+                    continue
 ###                break
 ##                depth=depth+1
         except Timeout:
