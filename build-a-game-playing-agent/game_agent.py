@@ -319,5 +319,5 @@ class CustomPlayer:
 #           beta = score
 #           best_move = current_move
 #
-        
+                
         return 0.0, (-1, -1)
