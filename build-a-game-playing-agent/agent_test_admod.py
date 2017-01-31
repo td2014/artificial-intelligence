@@ -508,8 +508,7 @@ class Project1Test(unittest.TestCase):
                 print("Dynamic Timer: time_left = ", self.time_limit - (curr_time_millis() - self.start_time) )
                 return self.time_limit - (curr_time_millis() - self.start_time)
 
-###        w, h = 11, 11  # board size
-        w, h = 5, 5  # board size
+        w, h = 11, 11  # board size
         adversary_location = (0, 0)
         method = "minimax"
 
@@ -526,7 +525,6 @@ class Project1Test(unittest.TestCase):
             # set the initial timer high enough that the search will not
             # timeout before triggering the dynamic timer to halt by visiting
             # the expected number of nodes
-###            time_limit = 1e4
             time_limit = 1e4
             timer = DynamicTimer(time_limit)
             eval_fn = makeEvalStop(exact_counts[idx][0], timer, time_limit)

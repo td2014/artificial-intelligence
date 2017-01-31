@@ -125,6 +125,8 @@ class CustomPlayer:
         # Perform any required initializations, including selecting an initial
         # move from the game board (i.e., an opening book), or returning
         # immediately if there are no legal moves
+        if len(legal_moves)==0:
+            return (-1,-1)
 
         try:
             # The search method call (alpha beta or minimax) should happen in
@@ -136,9 +138,9 @@ class CustomPlayer:
             
             opt_score_result = float("-inf")
             opt_move = (-1,-1)
-            
             depth=1
-            while True:
+            
+            while self.time_left > 0:
                 for iMove in legal_moves:
                     print("get_move: legal_moves = ", legal_moves)
                     print("get_move: iMove = ", iMove)
@@ -153,6 +155,7 @@ class CustomPlayer:
 ##                depth=depth+1
         except Timeout:
             # Handle any actions required at timeout, if necessary
+            print("get_moves:  Hit Timeout")
             return opt_move
 
         # Return the best move from the last completed search iteration
