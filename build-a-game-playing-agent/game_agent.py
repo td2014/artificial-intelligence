@@ -200,7 +200,9 @@ class CustomPlayer:
 
         # TODO: finish this function!
         
+        print("-----")
         print("minimax: top")
+        print("minimax: depth = ", depth)
         print("minimax: maximizing_player = ", maximizing_player)
         print("minimax: starting positions:")
         print(game.print_board())
@@ -230,8 +232,11 @@ class CustomPlayer:
         # depending on layer type.        
             if depth == 1:
                 print("minimax: at target depth")
+                print("minimax: at target depth - maximizing_player = ", maximizing_player)
+                print("minimax: at target depth - legal_moves = ", game.get_legal_moves())
                 for iMove in game.get_legal_moves():
                     gameTemp= game.forecast_move(iMove)
+                    print("minimax: at target depth, checking iMove = ", iMove)
                     print(gameTemp.print_board())
                     score_result = self.score(gameTemp, self)
                     print("minimax: at target depth - score_result = ", score_result)
@@ -249,6 +254,7 @@ class CustomPlayer:
                             opt_move = iMove
                         else:
                             continue
+                    print("---end of iMove---")
                 return opt_score_result, opt_move
             else:
                 # recurse to the next level down
@@ -257,6 +263,7 @@ class CustomPlayer:
                     # update game board with parent move before recursing.
                     gameTemp = game.forecast_move(iMove)
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
+                    print("minimax: calling recursion: maximizing_player, iMove = ", maximizing_player, iMove)
                     score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
                     print("minimax: recursion - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move )
                     # want to update max or min depending if current layer is maximizing or minimizing

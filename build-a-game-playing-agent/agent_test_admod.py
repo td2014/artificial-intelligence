@@ -547,8 +547,8 @@ class Project1Test(unittest.TestCase):
         If minimax is working properly, it will visit a constant number of
         nodes during the search and return one of the acceptable legal moves.
         """
-        h, w = 2, 3  # board size
-        starting_location = (1, 2)
+        h, w = 3, 3  # board size
+        starting_location = (0, 2)
         adversary_location = (0, 0)  # top left corner
         iterative_search = False
         method = "minimax"
@@ -579,7 +579,7 @@ class Project1Test(unittest.TestCase):
         # player (student agent) has the last move, while even depths mean that
         # the adversary has the last move before calling the heuristic
         # evaluation function.
-        for idx in range(5):
+        for idx in range(1,2):
             test_depth = idx + 1
             agentUT, board = self.initAUT(test_depth, heuristic,
                                           iterative_search, method,
