@@ -235,26 +235,27 @@ class CustomPlayer:
                 print("minimax: at target depth - maximizing_player = ", maximizing_player)
                 print("minimax: at target depth - legal_moves = ", game.get_legal_moves())
                 for iMove in game.get_legal_moves():
+                    print("minimax: at target depth ---start of iMove---")
                     gameTemp= game.forecast_move(iMove)
                     print("minimax: at target depth, checking iMove = ", iMove)
                     print(gameTemp.print_board())
                     score_result = self.score(gameTemp, self)
                     print("minimax: at target depth - score_result = ", score_result)
                     if maximizing_player:
-                        print("minimax: target depth - maximizing player")
+                        print("minimax: at target depth - maximizing player")
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
                     else:
-                        print("minimax: target depth - minimizing player")
+                        print("minimax: at target depth - minimizing player")
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
-                    print("---end of iMove---")
+                print("minimax: at target depth ---end of iMoves---")
                 return opt_score_result, opt_move
             else:
                 # recurse to the next level down
@@ -265,17 +266,17 @@ class CustomPlayer:
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
                     print("minimax: calling recursion: maximizing_player, iMove = ", maximizing_player, iMove)
                     score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
-                    print("minimax: recursion - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move )
+                    print("minimax: recursion return - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move)
                     # want to update max or min depending if current layer is maximizing or minimizing
                     if maximizing_player:
-                        print("minimax: recursion - maximizing player")
+                        print("minimax: recursion return - maximizing player")
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
                     else:
-                        print("minimax: recursion - minimizing player")
+                        print("minimax: recursion return - minimizing player")
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
