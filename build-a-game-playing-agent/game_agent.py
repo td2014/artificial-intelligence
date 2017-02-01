@@ -212,9 +212,11 @@ class CustomPlayer:
         else:
         # initialize return scores and moves
             if maximizing_player:
+                print("minimax: initializing maximizing player")
                 opt_score_result = float("-inf")
                 opt_move = (-1,-1)
             else:
+                print("minimax: initializing minimizing player")
                 opt_score_result = float("inf")
                 opt_move = (-1,-1)  
                 
@@ -226,12 +228,14 @@ class CustomPlayer:
                     gameTemp= game.forecast_move(iMove)
                     score_result = self.score(gameTemp, self)
                     if maximizing_player:
+                        print("minimax: target depth - maximizing player")
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
                     else:
+                        print("minimax: target depth - minimizing player")
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
@@ -246,14 +250,17 @@ class CustomPlayer:
                     gameTemp = game.forecast_move(iMove)
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
                     score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
+                    print("minimax: recursion- depth, score_result, iMove, test_move", depth, score_result, iMove, test_move )
                     # want to update max or min depending if current layer is maximizing or minimizing
                     if maximizing_player:
+                        print("minimax: recursion - maximizing player")
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
                     else:
+                        print("minimax: recursion - minimizing player")
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove

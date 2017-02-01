@@ -14,6 +14,7 @@ import sys
 
 import isolation
 import game_agent
+import sample_players as sp
 
 from collections import Counter
 from copy import deepcopy
@@ -244,7 +245,7 @@ class Project1Test(unittest.TestCase):
             "The heuristic function should return a floating point")
 
     timeout(1)
-##    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip simple minimax test.")  # Uncomment this line to skip test
     def test_minimax_interface(self):
         """ Test CustomPlayer.minimax interface with simple input """
         h, w = 7, 7  # board size
@@ -306,7 +307,7 @@ class Project1Test(unittest.TestCase):
                              "branch being searched."))
 
     @timeout(1)
-##    @unittest.skip("Skip get_move test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip get_move test.")  # Uncomment this line to skip test
     def test_get_move_interface(self):
         """ Test CustomPlayer.get_move interface with simple input """
         h, w = 9, 9  # board size
@@ -358,7 +359,7 @@ class Project1Test(unittest.TestCase):
                        "on the current game board."))
 
     @timeout(1)
-##    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
     def test_minimax(self):
         """ Test CustomPlayer.minimax
 
@@ -478,7 +479,7 @@ class Project1Test(unittest.TestCase):
 
 
     @timeout(10)
-##    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip iterative deepening test.")  # Uncomment this line to skip test
     def test_get_move(self):
         """ Test iterative deepening in CustomPlayer.get_move by placing an
         agent on the game board and performing ID minimax search, which
@@ -534,6 +535,78 @@ class Project1Test(unittest.TestCase):
 
             self.assertTrue(chosen_move in legal_moves, INVALID_MOVE.format(
                 legal_moves, chosen_move))
+
+    @timeout(10)
+##    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
+    def test_minimax2(self):
+        """ Test CustomPlayer.minimax
+
+        This test uses a scoring function that returns a constant value based
+        on the location of the search agent on the board to force minimax to
+        choose a branch that visits those cells at a specific fixed-depth.
+        If minimax is working properly, it will visit a constant number of
+        nodes during the search and return one of the acceptable legal moves.
+        """
+        h, w = 4, 4  # board size
+        starting_location = (2, 3)
+        adversary_location = (0, 0)  # top left corner
+        iterative_search = False
+        method = "minimax"
+
+        # The agent under test starts at position (2, 3) on the board, which
+        # gives eight (8) possible legal moves [(0, 2), (0, 4), (1, 1), (1, 5),
+        # (3, 1), (3, 5), (4, 2), (4, 4)]. The search function will pick one of
+        # those moves based on the estimated score for each branch.  The value
+        # only changes on odd depths because even depths end on when the
+        # adversary has initiative.
+##        value_table = [[0] * w for _ in range(h)]
+##        value_table[1][5] = 1  # depth 1 & 2
+##        value_table[4][3] = 2  # depth 3 & 4
+##        value_table[6][6] = 3  # depth 5
+##        heuristic = makeEvalTable(value_table)
+        heuristic = sp.null_score
+
+        # These moves are the branches that will lead to the cells in the value
+        # table for the search depths.
+###        expected_moves = [set([(1, 5)]),
+###                          set([(3, 1), (3, 5)]),
+###                          set([(3, 5), (4, 2)])]
+
+        # Expected number of node expansions during search
+###        counts = [(8, 8), (24, 10), (92, 27), (418, 32), (1650, 43)]
+
+        # Test fixed-depth search; note that odd depths mean that the searching
+        # player (student agent) has the last move, while even depths mean that
+        # the adversary has the last move before calling the heuristic
+        # evaluation function.
+        for idx in range(5):
+            test_depth = idx + 1
+            agentUT, board = self.initAUT(test_depth, heuristic,
+                                          iterative_search, method,
+                                          loc1=starting_location,
+                                          loc2=adversary_location,
+                                          w=w,h=h)
+
+            # disable search timeout by returning a constant value
+            agentUT.time_left = lambda: 1e3
+            print("test_minimax2: get_legal_moves = ", board.get_legal_moves())
+            print("test_minimax2: test_depth = ", test_depth)
+            score, move = agentUT.minimax(board, test_depth)
+            print("test_minimax2: returned score = ", score)
+            print("test_minimax2: returned move = ", move)
+            print()
+
+##            num_explored_valid = board.counts[0] == counts[idx][0]
+##            num_unique_valid = board.counts[1] == counts[idx][1]
+
+##            self.assertTrue(num_explored_valid, WRONG_NUM_EXPLORED.format(
+##                method, test_depth, counts[idx][0], board.counts[0]))
+
+##            self.assertTrue(num_unique_valid, UNEXPECTED_VISIT.format(
+##                method, test_depth, counts[idx][1], board.counts[1]))
+
+##            self.assertIn(move, expected_moves[idx // 2], WRONG_MOVE.format(
+##               method, test_depth, expected_moves[idx // 2], move))
 
 
 if __name__ == '__main__':
