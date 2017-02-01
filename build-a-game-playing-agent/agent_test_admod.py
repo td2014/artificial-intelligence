@@ -547,8 +547,8 @@ class Project1Test(unittest.TestCase):
         If minimax is working properly, it will visit a constant number of
         nodes during the search and return one of the acceptable legal moves.
         """
-        h, w = 4, 4  # board size
-        starting_location = (2, 3)
+        h, w = 2, 3  # board size
+        starting_location = (1, 2)
         adversary_location = (0, 0)  # top left corner
         iterative_search = False
         method = "minimax"
@@ -589,11 +589,13 @@ class Project1Test(unittest.TestCase):
 
             # disable search timeout by returning a constant value
             agentUT.time_left = lambda: 1e3
-            print("test_minimax2: get_legal_moves = ", board.get_legal_moves())
+            print("========")
             print("test_minimax2: test_depth = ", test_depth)
+            print("test_minimax2: get_legal_moves = ", board.get_legal_moves())
             score, move = agentUT.minimax(board, test_depth)
             print("test_minimax2: returned score = ", score)
             print("test_minimax2: returned move = ", move)
+            print("++++++++")
             print()
 
 ##            num_explored_valid = board.counts[0] == counts[idx][0]
