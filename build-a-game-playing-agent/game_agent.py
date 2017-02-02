@@ -264,6 +264,7 @@ class CustomPlayer:
                     # update game board with parent move before recursing.
                     gameTemp = game.forecast_move(iMove)
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
+                    print("======")
                     print("minimax: calling recursion: maximizing_player, iMove = ", maximizing_player, iMove)
                     score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
                     print("minimax: recursion return - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move)

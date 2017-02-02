@@ -537,7 +537,7 @@ class Project1Test(unittest.TestCase):
                 legal_moves, chosen_move))
 
     @timeout(10)
-##    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
+###    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
     def test_minimax2(self):
         """ Test CustomPlayer.minimax
 
@@ -579,7 +579,7 @@ class Project1Test(unittest.TestCase):
         # player (student agent) has the last move, while even depths mean that
         # the adversary has the last move before calling the heuristic
         # evaluation function.
-        for idx in range(1,2):
+        for idx in range(4,5):
             test_depth = idx + 1
             agentUT, board = self.initAUT(test_depth, heuristic,
                                           iterative_search, method,
