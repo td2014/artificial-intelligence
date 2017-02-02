@@ -161,7 +161,25 @@ class CustomPlayer:
                         break  #done with minimax to fixed depth
                         
             elif self.method=="alphabeta":
-                pass
+                
+                opt_score_result = float("-inf")
+                opt_move = (-1,-1)
+                
+                if self.iterative:
+                    depth=1
+                else:
+                    depth=self.search_depth
+            
+                while True:
+                    score_result, test_move = self.alphabeta(game, depth)
+                    if score_result > opt_score_result:
+                        opt_score_result = score_result
+                        opt_move = test_move
+                        
+                    if self.iterative:
+                        depth=depth+1
+                    else:
+                        break  #done with alphabeta to fixed depth
             
         except Timeout:
             # Handle any actions required at timeout, if necessary
@@ -344,4 +362,88 @@ class CustomPlayer:
 #           best_move = current_move
 #
                 
-        return 0.0, (-1, -1)
+        print("-----")
+        print("alphabeta: top")
+        print("alphabeta: depth = ", depth)
+        print("alphabeta: maximizing_player = ", maximizing_player)
+        print("alphabeta: starting positions:")
+        print(game.print_board())
+        
+        # using depth to determine level to evaluate
+        # score.  When depth==1 then stop recursing.
+            
+        if len(game.get_legal_moves()) == 0:
+            print("alphabeta: no legal moves remain")
+            if maximizing_player:
+                return float("-inf"), (-1,-1)
+            else:
+                return float("inf"), (-1,-1)
+        else:
+        # initialize return scores and moves
+            if maximizing_player:
+                print("alphabeta: initializing maximizing player")
+                opt_score_result = float("-inf")
+                opt_move = (-1,-1)
+            else:
+                print("alphabeta: initializing minimizing player")
+                opt_score_result = float("inf")
+                opt_move = (-1,-1)  
+                
+        # we are at target depth
+        # now loop over legal moves and determine max or min scoring move
+        # depending on layer type.        
+            if depth == 1:
+                print("alphabeta: at target depth")
+                print("alpha, beta = ", alpha, beta)
+                print("alphabeta: at target depth - maximizing_player = ", maximizing_player)
+                print("alphabeta: at target depth - legal_moves = ", game.get_legal_moves())
+                for iMove in game.get_legal_moves():
+                    print("alphabeta: at target depth ---start of iMove---")
+                    gameTemp= game.forecast_move(iMove)
+                    print("alphabeta: at target depth, checking iMove = ", iMove)
+                    print(gameTemp.print_board())
+                    score_result = self.score(gameTemp, self)
+                    print("alphabeta: at target depth - score_result = ", score_result)
+                    if maximizing_player:
+                        print("alphabeta: at target depth - maximizing player")
+                        if score_result > opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+                    else:
+                        print("alphabeta: at target depth - minimizing player")
+                        if score_result < opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+                print("alphabeta: at target depth ---end of iMoves---")
+                return opt_score_result, opt_move
+            else:
+                # recurse to the next level down
+                # Loop over legal moves
+                for iMove in game.get_legal_moves():
+                    # update game board with parent move before recursing.
+                    gameTemp = game.forecast_move(iMove)
+                    # recursive call:  decrease depth and invert maximize to toggle between min/max layers
+                    print("======")
+                    print("alphabeta: calling recursion: maximizing_player, iMove = ", maximizing_player, iMove)
+                    score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
+                    print("alphabeta: recursion return - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move)
+                    # want to update max or min depending if current layer is maximizing or minimizing
+                    if maximizing_player:
+                        print("alphabeta: recursion return - maximizing player")
+                        if score_result > opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue
+                    else:
+                        print("alphabeta: recursion return - minimizing player")
+                        if score_result < opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+                        else:
+                            continue       
+                return opt_score_result, opt_move

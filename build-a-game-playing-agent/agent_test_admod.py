@@ -537,7 +537,7 @@ class Project1Test(unittest.TestCase):
                 legal_moves, chosen_move))
 
     @timeout(10)
-###    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
     def test_minimax2(self):
         """ Test CustomPlayer.minimax
 
