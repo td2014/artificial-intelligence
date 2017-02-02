@@ -537,7 +537,7 @@ class Project1Test(unittest.TestCase):
                 legal_moves, chosen_move))
 
     @timeout(10)
-    @unittest.skip("Skip minimax test.")  # Uncomment this line to skip test
+    @unittest.skip("Skip minimax2 test.")  # Uncomment this line to skip test
     def test_minimax2(self):
         """ Test CustomPlayer.minimax
 
@@ -595,6 +595,80 @@ class Project1Test(unittest.TestCase):
             score, move = agentUT.minimax(board, test_depth)
             print("test_minimax2: returned score = ", score)
             print("test_minimax2: returned move = ", move)
+            print("++++++++")
+            print()
+
+##            num_explored_valid = board.counts[0] == counts[idx][0]
+##            num_unique_valid = board.counts[1] == counts[idx][1]
+
+##            self.assertTrue(num_explored_valid, WRONG_NUM_EXPLORED.format(
+##                method, test_depth, counts[idx][0], board.counts[0]))
+
+##            self.assertTrue(num_unique_valid, UNEXPECTED_VISIT.format(
+##                method, test_depth, counts[idx][1], board.counts[1]))
+
+##            self.assertIn(move, expected_moves[idx // 2], WRONG_MOVE.format(
+##               method, test_depth, expected_moves[idx // 2], move))
+
+    @timeout(10)
+##    @unittest.skip("Skip alphabeta2 test.")  # Uncomment this line to skip test
+    def test_alphabeta2(self):
+        """ Test CustomPlayer.alphabeta
+
+        This test uses a scoring function that returns a constant value based
+        on the location of the search agent on the board to force minimax to
+        choose a branch that visits those cells at a specific fixed-depth.
+        If minimax is working properly, it will visit a constant number of
+        nodes during the search and return one of the acceptable legal moves.
+        """
+        h, w = 3, 3  # board size
+        starting_location = (0, 2)
+        adversary_location = (0, 0)  # top left corner
+        iterative_search = False
+        method = "alphabeta"
+
+        # The agent under test starts at position (2, 3) on the board, which
+        # gives eight (8) possible legal moves [(0, 2), (0, 4), (1, 1), (1, 5),
+        # (3, 1), (3, 5), (4, 2), (4, 4)]. The search function will pick one of
+        # those moves based on the estimated score for each branch.  The value
+        # only changes on odd depths because even depths end on when the
+        # adversary has initiative.
+##        value_table = [[0] * w for _ in range(h)]
+##        value_table[1][5] = 1  # depth 1 & 2
+##        value_table[4][3] = 2  # depth 3 & 4
+##        value_table[6][6] = 3  # depth 5
+##        heuristic = makeEvalTable(value_table)
+        heuristic = sp.null_score
+
+        # These moves are the branches that will lead to the cells in the value
+        # table for the search depths.
+###        expected_moves = [set([(1, 5)]),
+###                          set([(3, 1), (3, 5)]),
+###                          set([(3, 5), (4, 2)])]
+
+        # Expected number of node expansions during search
+###        counts = [(8, 8), (24, 10), (92, 27), (418, 32), (1650, 43)]
+
+        # Test fixed-depth search; note that odd depths mean that the searching
+        # player (student agent) has the last move, while even depths mean that
+        # the adversary has the last move before calling the heuristic
+        # evaluation function.
+        for idx in range(4,5):
+            test_depth = idx + 1
+            agentUT, board = self.initAUT(test_depth, heuristic,
+                                          iterative_search, method,
+                                          loc1=starting_location,
+                                          loc2=adversary_location,
+                                          w=w,h=h)
+
+            # disable search timeout by returning a constant value
+            agentUT.time_left = lambda: 1e3
+            print("========")
+            print("test_alphabeta2: test_depth = ", test_depth)
+            print("test_alphabeta2: get_legal_moves = ", board.get_legal_moves())
+            score, move = agentUT.alphabeta(board, test_depth)
+            print("test_alphabeta2: returned score = ", score)
+            print("test_alphabeta2: returned move = ", move)
             print("++++++++")
             print()
 

@@ -429,7 +429,7 @@ class CustomPlayer:
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
                     print("======")
                     print("alphabeta: calling recursion: maximizing_player, iMove = ", maximizing_player, iMove)
-                    score_result, test_move = self.minimax(gameTemp, depth-1, not maximizing_player)
+                    score_result, test_move = self.alphabeta(gameTemp, depth-1, not maximizing_player)
                     print("alphabeta: recursion return - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move)
                     # want to update max or min depending if current layer is maximizing or minimizing
                     if maximizing_player:
