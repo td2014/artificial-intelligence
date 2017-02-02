@@ -409,6 +409,11 @@ class CustomPlayer:
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
+                            
+                            if opt_score_result < alpha:
+                                print("alphabeta: alpha pruning triggered")
+                                break
+                            
                         else:
                             continue
                     else:
@@ -416,6 +421,11 @@ class CustomPlayer:
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
+                            
+                            if opt_score_result > beta:
+                                print("alphabeta: beta pruning triggered")
+                                break
+                            
                         else:
                             continue
                 print("alphabeta: at target depth ---end of iMoves---")
@@ -429,7 +439,7 @@ class CustomPlayer:
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
                     print("======")
                     print("alphabeta: calling recursion: maximizing_player, iMove = ", maximizing_player, iMove)
-                    score_result, test_move = self.alphabeta(gameTemp, depth-1, not maximizing_player)
+                    score_result, test_move = self.alphabeta(gameTemp, depth-1, alpha, beta, not maximizing_player)
                     print("alphabeta: recursion return - depth, score_result, iMove, test_move", depth, score_result, iMove, test_move)
                     # want to update max or min depending if current layer is maximizing or minimizing
                     if maximizing_player:
@@ -437,6 +447,10 @@ class CustomPlayer:
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
+                            
+                            if opt_score_result <= beta:
+                                beta=opt_score_result
+                                
                         else:
                             continue
                     else:
@@ -444,6 +458,10 @@ class CustomPlayer:
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
+                            
+                            if opt_score_result >= alpha:
+                                alpha=opt_score_result
+                                
                         else:
                             continue       
                 return opt_score_result, opt_move

@@ -621,7 +621,8 @@ class Project1Test(unittest.TestCase):
         If minimax is working properly, it will visit a constant number of
         nodes during the search and return one of the acceptable legal moves.
         """
-        h, w = 3, 3  # board size
+###        h, w = 3, 3  # board size
+        h, w = 7, 7
         starting_location = (0, 2)
         adversary_location = (0, 0)  # top left corner
         iterative_search = False
@@ -633,12 +634,12 @@ class Project1Test(unittest.TestCase):
         # those moves based on the estimated score for each branch.  The value
         # only changes on odd depths because even depths end on when the
         # adversary has initiative.
-##        value_table = [[0] * w for _ in range(h)]
-##        value_table[1][5] = 1  # depth 1 & 2
-##        value_table[4][3] = 2  # depth 3 & 4
-##        value_table[6][6] = 3  # depth 5
-##        heuristic = makeEvalTable(value_table)
-        heuristic = sp.null_score
+        value_table = [[0] * w for _ in range(h)]
+        value_table[1][5] = 1  # depth 1 & 2
+        value_table[4][3] = 2  # depth 3 & 4
+        value_table[6][6] = 3  # depth 5
+        heuristic = makeEvalTable(value_table)
+##        heuristic = sp.null_score
 
         # These moves are the branches that will lead to the cells in the value
         # table for the search depths.
@@ -653,7 +654,7 @@ class Project1Test(unittest.TestCase):
         # player (student agent) has the last move, while even depths mean that
         # the adversary has the last move before calling the heuristic
         # evaluation function.
-        for idx in range(4,5):
+        for idx in range(3,4):
             test_depth = idx + 1
             agentUT, board = self.initAUT(test_depth, heuristic,
                                           iterative_search, method,
