@@ -622,8 +622,8 @@ class Project1Test(unittest.TestCase):
         nodes during the search and return one of the acceptable legal moves.
         """
 ###        h, w = 3, 3  # board size
-        h, w = 7, 7
-        starting_location = (0, 2)
+        h, w = 9, 9
+        starting_location = (8, 7)
         adversary_location = (0, 0)  # top left corner
         iterative_search = False
         method = "alphabeta"
@@ -635,10 +635,18 @@ class Project1Test(unittest.TestCase):
         # only changes on odd depths because even depths end on when the
         # adversary has initiative.
         value_table = [[0] * w for _ in range(h)]
-        value_table[2][2] = 6  # 
-        value_table[4][3] = 0  # 
-        value_table[3][1] = 3  # 
-        value_table[3][3] = 4  # 
+        value_table[4][5] = 10  # 
+        value_table[4][7] = 7  # 
+        value_table[5][4] = 6  # 
+        value_table[5][8] = 5  # 
+        value_table[7][4] = 4  # 
+        value_table[7][8] = 3  # 
+        value_table[8][5] = 2  # 
+        value_table[5][6] = 9  # 
+        value_table[7][6] = 4  # 
+        value_table[6][3] = 5  # 
+        value_table[6][7] = 4  #
+        value_table[8][3] = 3  #
         heuristic = makeEvalTable(value_table)
 ##        heuristic = sp.null_score
 
@@ -655,7 +663,7 @@ class Project1Test(unittest.TestCase):
         # player (student agent) has the last move, while even depths mean that
         # the adversary has the last move before calling the heuristic
         # evaluation function.
-        for idx in range(3,4):
+        for idx in range(2,3):
             test_depth = idx + 1
             agentUT, board = self.initAUT(test_depth, heuristic,
                                           iterative_search, method,
