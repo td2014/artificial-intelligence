@@ -406,26 +406,22 @@ class CustomPlayer:
                     print("alphabeta: at target depth - score_result = ", score_result)
                     if maximizing_player:
                         print("alphabeta: at target depth - maximizing player")
+                        if opt_score_result < alpha:
+                                print("alphabeta: alpha pruning triggered")
+                                break
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
-                            
-                            if opt_score_result < alpha:
-                                print("alphabeta: alpha pruning triggered")
-                                break
-                            
                         else:
                             continue
                     else:
                         print("alphabeta: at target depth - minimizing player")
+                        if opt_score_result > beta:
+                                print("alphabeta: beta pruning triggered")
+                                break
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
-                            
-                            if opt_score_result > beta:
-                                print("alphabeta: beta pruning triggered")
-                                break
-                            
                         else:
                             continue
                 print("alphabeta: at target depth ---end of iMoves---")
@@ -434,6 +430,8 @@ class CustomPlayer:
                 # recurse to the next level down
                 # Loop over legal moves
                 for iMove in game.get_legal_moves():
+                    print("alphabeta: calling recursion, maximizing_player = ", maximizing_player)
+                    print("alphabeta: calling recursion, legal_moves() = ", game.get_legal_moves())
                     # update game board with parent move before recursing.
                     gameTemp = game.forecast_move(iMove)
                     # recursive call:  decrease depth and invert maximize to toggle between min/max layers
@@ -444,24 +442,22 @@ class CustomPlayer:
                     # want to update max or min depending if current layer is maximizing or minimizing
                     if maximizing_player:
                         print("alphabeta: recursion return - maximizing player")
+                        if score_result < beta:
+                                beta=score_result
+                                print("alphabeta: recursion return, setting beta = ", beta)
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
-                            
-                            if opt_score_result <= beta:
-                                beta=opt_score_result
-                                
                         else:
                             continue
                     else:
                         print("alphabeta: recursion return - minimizing player")
+                        if score_result > alpha:
+                            alpha=score_result
+                            print("alphabeta: recursion return, setting alpha = ", alpha)
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
-                            
-                            if opt_score_result >= alpha:
-                                alpha=opt_score_result
-                                
                         else:
                             continue       
                 return opt_score_result, opt_move

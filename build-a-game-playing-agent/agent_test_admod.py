@@ -635,9 +635,10 @@ class Project1Test(unittest.TestCase):
         # only changes on odd depths because even depths end on when the
         # adversary has initiative.
         value_table = [[0] * w for _ in range(h)]
-        value_table[1][5] = 1  # depth 1 & 2
-        value_table[4][3] = 2  # depth 3 & 4
-        value_table[6][6] = 3  # depth 5
+        value_table[2][2] = 6  # 
+        value_table[4][3] = 0  # 
+        value_table[3][1] = 3  # 
+        value_table[3][3] = 4  # 
         heuristic = makeEvalTable(value_table)
 ##        heuristic = sp.null_score
 
