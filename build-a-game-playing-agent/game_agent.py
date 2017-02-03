@@ -406,9 +406,11 @@ class CustomPlayer:
                     print("alphabeta: at target depth - score_result = ", score_result)
                     if maximizing_player:
                         print("alphabeta: at target depth - maximizing player")
- ##                       if opt_score_result < alpha:
- ##                               print("alphabeta: alpha pruning triggered")
- ##                               break
+                        if score_result >= alpha:
+                                print("alphabeta: alpha pruning triggered")
+                                opt_score_result=score_result
+                                opt_move=iMove
+                                break
                         if score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
@@ -416,9 +418,11 @@ class CustomPlayer:
                             continue
                     else:
                         print("alphabeta: at target depth - minimizing player")
-##                        if opt_score_result > beta:
-##                                print("alphabeta: beta pruning triggered")
-##                                break
+                        if score_result <= beta:
+                                print("alphabeta: beta pruning triggered")
+                                opt_score_result=score_result
+                                opt_move=iMove
+                                break
                         if score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
