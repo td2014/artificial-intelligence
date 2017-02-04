@@ -367,7 +367,7 @@ class CustomPlayer:
         print("alphabeta: depth = ", depth)
         print("alphabeta: maximizing_player = ", maximizing_player)
         print("alphabeta: starting positions:")
-        print(game.print_board())
+  ###      print(game.print_board())
         
         # using depth to determine level to evaluate
         # score.  When depth==1 then stop recursing.
@@ -401,7 +401,7 @@ class CustomPlayer:
                     print("alphabeta: at target depth ---start of iMove---")
                     gameTemp= game.forecast_move(iMove)
                     print("alphabeta: at target depth, checking iMove = ", iMove)
-                    print(gameTemp.print_board())
+  ###                  print(gameTemp.print_board())
                     score_result = self.score(gameTemp, self)
                     print("alphabeta: at target depth - score_result = ", score_result)
                     if maximizing_player:
@@ -419,7 +419,7 @@ class CustomPlayer:
                     else:
                         print("alphabeta: at target depth - minimizing player")
                         if score_result <= alpha:
-                                print("alphabeta: beta pruning triggered")
+                                print("alphabeta: alpha pruning triggered")
                                 opt_score_result=score_result
                                 opt_move=iMove
                                 break
@@ -448,22 +448,31 @@ class CustomPlayer:
                     # want to update max or min depending if current layer is maximizing or minimizing
                     if maximizing_player:
                         print("alphabeta: recursion return - maximizing player")
+                        print("alphabeta: recursion return - maximizing player, score_result, alpha = ", score_result, alpha)
                         if score_result > alpha:
-                               alpha=score_result
-                               print("alphabeta: recursion return, setting beta = ", alpha)
-                        if score_result > opt_score_result:
+                            alpha=score_result
+                            print("alphabeta: recursion return, setting alpha = ", alpha)
+                            opt_score_result = score_result
+                            opt_move = iMove
+##                               break
+                        elif score_result > opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
                             continue
                     else:
                         print("alphabeta: recursion return - minimizing player")
+                        print("alphabeta: recursion return - minimizing player, score_result, beta = ", score_result, beta)
                         if score_result < beta:
                             beta=score_result
                             print("alphabeta: recursion return, setting beta = ", beta)
-                        if score_result < opt_score_result:
+                            opt_score_result = score_result
+                            opt_move = iMove
+##                            break
+                        elif score_result < opt_score_result:
                             opt_score_result = score_result
                             opt_move = iMove
                         else:
-                            continue       
+                            continue   
+                        
                 return opt_score_result, opt_move
